@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, request
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from summarize import summarize
+from gap_questions import create_gap_questions
 
 # App config.
 DEBUG = True
@@ -28,8 +29,18 @@ class QuizGenerator(Form):
             print('Submitted topic: ' + topic)
             flash('Submitted topic: ' + topic)
 
-            summarized_text = summarize(article)
+            summarized_text, summary_sentences = summarize(article)
+
+            gap_questions = []
+
+            for sent in summary_sentences:
+                temp_gap_questions = []
+                temp_gap_questions = create_gap_questions(sent)
+                gap_questions.append(temp_gap_questions)
+
+            print(gap_questions)
             flash('Summary:' + summarized_text)
+            
         else:
             print('Error: All the form fields are required. ')
             flash('Error: All the form fields are required. ')
