@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, request
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from summarize import summarize
 
 # App config.
 DEBUG = True
@@ -26,10 +27,13 @@ class QuizGenerator(Form):
         # Save the comment here.
             print('Submitted topic: ' + topic)
             flash('Submitted topic: ' + topic)
+
+            summarized_text = summarize(article)
+            flash('Summary:' + summarized_text)
         else:
             print('Error: All the form fields are required. ')
             flash('Error: All the form fields are required. ')
-    
+
         return render_template('form.html', form=form)
 
 if __name__ == "__main__":
