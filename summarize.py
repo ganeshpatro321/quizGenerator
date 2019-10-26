@@ -3,6 +3,7 @@ import heapq
 import nltk
 nltk.download('punkt')
 
+
 def summarize(article_text):
     #Remove references, number
     article_text = re.sub(r'\[[0-9]*\]', ' ', article_text)
@@ -41,7 +42,8 @@ def summarize(article_text):
                         sentence_scores[sent] += word_frequencies[word]
 
     summary_sentences = heapq.nlargest(7, sentence_scores, key=sentence_scores.get)
+
     summary = ' '.join(summary_sentences)
 
     print(summary)
-    return summary
+    return summary, summary_sentences
