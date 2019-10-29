@@ -48,6 +48,11 @@
     </div>
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
+  {% for field, errors in form.errors.items() %}
+<div class="alert alert-warning">
+  <strong>{{ form[field].label }}</strong> {{ ', '.join(errors) }}
+</div>
+{% endfor %}
   {% with messages = get_flashed_messages(with_categories=true) %} {% if
   messages %} {% for message in messages %} {% if "Submitted" in message[1]: %}
   <div class="alert alert-info"><strong>Success!</strong> {{ message[1] }}</div>

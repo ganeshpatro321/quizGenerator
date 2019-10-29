@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 class QuizGenerator(Form):
     topic = TextField('Topic:', validators=[validators.required()])
-    article = TextField('Article:', validators=[validators.required()])
+    article = TextField('Article:', validators=[validators.required(), validators.Length(min=100, message=(u'Must be atleast 100 words length'))])
     
     @app.route("/", methods=['GET', 'POST'])
     def hello():
@@ -50,9 +50,9 @@ class QuizGenerator(Form):
             for ques in flash_gap_questions:
                 flash('Question: ' + ques)
             
-        else:
-            print('Error: All the form fields are required. ')
-            flash('Error: All the form fields are required. ')
+        # else:
+        #     # print('Error: All the form fields are required. ')
+        #     flash('Error: All the form fields are required. ')
 
         return render_template('form.html', form=form)
 
