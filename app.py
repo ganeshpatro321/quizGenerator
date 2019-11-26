@@ -36,9 +36,9 @@ class QuizGenerator(Form):
 
             gap_questions = []
 
-            for sent in summary_sentences:
+            for sentence in summary_sentences:
                 temp_gap_questions = []
-                temp_gap_questions = create_gap_questions(sent)
+                temp_gap_questions = create_gap_questions(sentence)
                 gap_questions += temp_gap_questions
 
             # print(gap_questions)
