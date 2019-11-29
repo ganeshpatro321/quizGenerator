@@ -35,7 +35,9 @@ class QuizGenerator(Form):
                 gap_questions.append(gap_question)
 
         # print(gap_questions)
-        return (json.dumps(gap_questions), 200)
+        response = jsonify(gap_questions)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     @app.route("/summary", methods=['POST'])
     def generateSummary():
