@@ -13,7 +13,7 @@ app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 class QuizGenerator(Form):
-    topic = TextField('Topic:', validators=[validators.required()])
+    topic = TextField('Topic:')
     article = TextField('Article:', validators=[validators.required(), validators.Length(min=100, message=(u'Must be atleast 100 words length'))])
     
     @app.route("/", methods=['GET', 'POST'])
@@ -37,17 +37,18 @@ class QuizGenerator(Form):
             gap_questions = []
 
             for sentence in summary_sentences:
-                temp_gap_questions = []
-                temp_gap_questions = create_gap_questions(sentence)
-                gap_questions += temp_gap_questions
+                gap_question = create_gap_questions(sentence)
+                if gap_question:
+                    gap_questions.append(gap_question)
+
 
             # print(gap_questions)
-            flash_gap_questions = random.choices(gap_questions, k=math.floor(len(gap_questions)/2))
+            # flash_gap_questions = random.choices(gap_questions, k=1)
 
-            print(flash_gap_questions)
+            # print(flash_gap_questions)
             flash('Summary: ' + summarized_text)
 
-            for ques in flash_gap_questions:
+            for ques in gap_questions:
                 flash('Question: ' + ques)
             
         # else:
