@@ -23,7 +23,7 @@ class QuizGenerator(Form):
     def hello():
         data = json.loads(request.data)
         article = data['article']
-        print(data)
+        # print(data)
 
         summarized_text, summary_sentences = summarize(article)
 
@@ -34,7 +34,7 @@ class QuizGenerator(Form):
             if gap_question:
                 gap_questions.append(gap_question)
 
-        print(gap_questions)
+        # print(gap_questions)
         return (json.dumps(gap_questions), 200)
 
     @app.route("/summary", methods=['POST'])

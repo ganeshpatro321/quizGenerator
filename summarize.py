@@ -41,7 +41,7 @@ def summarize(article_text):
                     else:
                         sentence_scores[sent] += word_frequencies[word]
 
-    summary_sentences = heapq.nlargest(7, sentence_scores, key=sentence_scores.get)
+    summary_sentences = heapq.nlargest(10, sentence_scores, key=sentence_scores.get)
 
     summary = ' '.join(summary_sentences)
 
