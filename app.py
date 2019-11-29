@@ -46,5 +46,9 @@ class QuizGenerator(Form):
 
         return (json.dumps(summarized_text), 200)
 
+    @app.route("/check", methods=['POST', 'GET'])
+    def checkApp():
+        return "working"
+
 if __name__ == "__main__":
     app.run()
