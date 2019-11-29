@@ -36,19 +36,15 @@ class QuizGenerator(Form):
 
         print(gap_questions)
         return (json.dumps(gap_questions), 200)
-        # flash_gap_questions = random.choices(gap_questions, k=1)
 
-        # print(flash_gap_questions)
-        #     flash('Summary: ' + summarized_text)
+    @app.route("/summary", methods=['POST'])
+    def generateSummary():
+        data = json.loads(request.data)
+        article = data['article']
 
-        #     for ques in gap_questions:
-        #         flash('Question: ' + ques)
-            
-        # # else:
-        # #     # print('Error: All the form fields are required. ')
-        # #     flash('Error: All the form fields are required. ')
+        summarized_text, summary_sentences = summarize(article)
 
-        # return render_template('form.html', form=form)
+        return (json.dumps(summarized_text), 200)
 
 if __name__ == "__main__":
     app.run()
