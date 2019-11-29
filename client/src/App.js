@@ -12,10 +12,13 @@ export default class App extends React.Component{
     qna: [],
     summary: '',
     showSummary: false,
-    showQuestions: false
+    showQuestions: false,
+    loadingQuestion: false,
+    loadingSummary: false
   }
 
   async handleQuestionGeneration() {
+    this.setState({loadingQuestion: true})
     const response = await axios({
       method: 'post',
       url: 'http://localhost:5000',
@@ -23,10 +26,11 @@ export default class App extends React.Component{
         article: this.state.article
       }
     });
-    this.setState({qna: response.data, showQuestions: true})
+    this.setState({qna: response.data, showQuestions: true, loadingQuestion: false})
   }
 
   async handleSummaryGeneration() {
+    this.setState({loadingSummary: true})
     const response = await axios({
       method: 'post',
       url: 'http://localhost:5000/summary',
@@ -34,10 +38,12 @@ export default class App extends React.Component{
         article: this.state.article
       }
     });
-    this.setState({summary: response.data, showSummary: !this.state.showSummary})
+    this.setState({summary: response.data, showSummary: !this.state.showSummary, loadingSummary: false})
   }
 
   render() {
+    let loadingSummary = this.state.loadingSummary;
+    let loadingQuestion = this.state.loadingQuestion;
     return (
       <div className="App">
         <header>
@@ -52,10 +58,10 @@ export default class App extends React.Component{
             </Form.Field>
             <Form.Field inline>
               <Button primary onClick={() => this.handleQuestionGeneration()}>
-                Generate Questions
+                {loadingQuestion ? 'Loading..' : 'Generate Questions'}
               </Button>
               <Button primary onClick={() => this.handleSummaryGeneration()}>
-                Generate Summary
+                {loadingSummary ? 'Loading..' : 'Generate Summary'}
               </Button>
             </Form.Field>
           </Form>

@@ -21,7 +21,7 @@ export const QuestionAnswer = ({question, answer}) => {
         >
           Q. {question}
         </Segment>
-      {showAnswer && <Segment fluid>{answer}</Segment>}
+      {showAnswer && <Segment fluid> Ans. {answer}</Segment>}
     </div>
   )
 }
