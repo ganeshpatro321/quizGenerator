@@ -8,14 +8,16 @@ export const QuestionAnswer = ({question, answer}) => {
       style={
         {
           color: 'black',
-          width: '50%',
-          paddingBottom: '20px'
+          width: '75%',
+          paddingBottom: '20px',
+          margin: 'auto'
         }
       }
       >
       <Segment 
         fluid 
         onClick={() => setShowAnswer(!showAnswer)}
+        style={{textAlign: 'left'}}
         >
           Q. {question}
         </Segment>
