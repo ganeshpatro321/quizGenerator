@@ -45,5 +45,5 @@ def summarize(article_text):
 
     summary = ' '.join(summary_sentences)
 
-    print(summary)
+    # print(summary)
     return summary, summary_sentences
