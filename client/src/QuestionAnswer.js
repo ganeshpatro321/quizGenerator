@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Segment } from 'semantic-ui-react';
 
-export const QuestionAnswer = ({question, answer}) => {
+export const ShowQuestionAnswer = ({question, answer}) => {
   const [showAnswer, setShowAnswer] = useState(false)
   return (
     <div 
@@ -22,6 +22,28 @@ export const QuestionAnswer = ({question, answer}) => {
           Q. {question}
         </Segment>
       {showAnswer && <Segment fluid> Ans. {answer}</Segment>}
+    </div>
+  )
+}
+
+export const ShowQuestion = ({question}) => {
+  return (
+    <div 
+      style={
+        {
+          color: 'black',
+          width: '75%',
+          paddingBottom: '20px',
+          margin: 'auto'
+        }
+      }
+      >
+      <Segment 
+        fluid 
+        style={{textAlign: 'left'}}
+        >
+          Q. {question}
+        </Segment>
     </div>
   )
 }

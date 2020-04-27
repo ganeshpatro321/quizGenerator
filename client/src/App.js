@@ -3,30 +3,45 @@ import 'semantic-ui-css/semantic.min.css'
 import { Form, Button, TextArea } from 'semantic-ui-react'
 import axios from 'axios'
 import './App.css';
-import { QuestionAnswer } from './QuestionAnswer'
+import { ShowQuestionAnswer, ShowQuestion } from './QuestionAnswer'
 import { Summary } from './Summary'
 
 export default class App extends React.Component{
   state = {
     article: '',
-    qna: [],
+    gapqna: [],
+    shortques: [],
     summary: '',
     showSummary: false,
-    showQuestions: false,
-    loadingQuestion: false,
+    showGapQuestions: false,
+    showShortQuestions: false,
+    loadingGapQuestion: false,
+    loadingShortQuestion: false,
     loadingSummary: false
   }
 
-  async handleQuestionGeneration() {
-    this.setState({loadingQuestion: true})
+  async handleGapQuestionGeneration() {
+    this.setState({loadingGapQuestion: true})
     const response = await axios({
       method: 'post',
-      url: 'http://localhost:5000',
+      url: 'http://localhost:5000/generateGapQuestions',
       data: {
         article: this.state.article
       }
     });
-    this.setState({qna: response.data, showQuestions: true, loadingQuestion: false})
+    this.setState({gapqna: response.data, showGapQuestions: true, loadingGapQuestion: false})
+  }
+
+  async handleShortQuestionGeneration() {
+    this.setState({loadingShortQuestion: true})
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:5000/generateShortQuestions',
+      data: {
+        article: this.state.article
+      }
+    });
+    this.setState({shortques: response.data, showShortQuestions: true, loadingShortQuestion: false})
   }
 
   async handleSummaryGeneration() {
@@ -43,7 +58,8 @@ export default class App extends React.Component{
 
   render() {
     let loadingSummary = this.state.loadingSummary;
-    let loadingQuestion = this.state.loadingQuestion;
+    let loadingGapQuestion = this.state.loadingGapQuestion;
+    let loadingShortQuestion = this.state.loadingShortQuestion;
     return (
       <div className="App">
         <header>
@@ -57,22 +73,32 @@ export default class App extends React.Component{
               />
             </Form.Field>
             <Form.Field inline>
-              <Button primary onClick={() => this.handleQuestionGeneration()}>
-                {loadingQuestion ? 'Loading..' : 'Generate Questions'}
-              </Button>
               <Button primary onClick={() => this.handleSummaryGeneration()}>
                 {loadingSummary ? 'Loading..' : 'Generate Summary'}
+              </Button>
+              <Button primary onClick={() => this.handleGapQuestionGeneration()}>
+                {loadingGapQuestion ? 'Loading..' : 'Generate Gap Questions'}
+              </Button>
+              <Button primary onClick={() => this.handleShortQuestionGeneration()}>
+                {loadingShortQuestion ? 'Loading..' : 'Generate Short Questions'}
               </Button>
             </Form.Field>
           </Form>
           <br />
           <br />
           {this.state.showSummary && <Summary summary={this.state.summary} />}
-          {this.state.showQuestions && 
+          {this.state.showGapQuestions && 
             <div>
-              <h4>Questions</h4>
-              {this.state.qna.map((quesans) => 
-                <QuestionAnswer question={quesans.question} answer={quesans.answer} />
+              <h4>Gap Questions</h4>
+              {this.state.gapqna.map((quesans) => 
+                <ShowQuestionAnswer question={quesans.question} answer={quesans.answer} />
+              )}
+            </div>}
+            {this.state.showShortQuestions && 
+            <div>
+              <h4>Short Questions</h4>
+              {this.state.shortques.map((ques) => 
+                <ShowQuestion question={ques} />
               )}
             </div>}
         </header>
