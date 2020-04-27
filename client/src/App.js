@@ -9,7 +9,8 @@ import { Summary } from './Summary'
 export default class App extends React.Component{
   state = {
     article: '',
-    qna: [],
+    gapqna: [],
+    shortques: [],
     summary: '',
     showSummary: false,
     showQuestions: false,
@@ -17,17 +18,29 @@ export default class App extends React.Component{
     loadingSummary: false
   }
 
-  async handleQuestionGeneration() {
+  async handleGapQuestionGeneration() {
     this.setState({loadingQuestion: true})
     const response = await axios({
       method: 'post',
-      url: 'http://localhost:5000',
+      url: 'http://localhost:5000/generateGapQuestions',
       data: {
         article: this.state.article
       }
     });
-    this.setState({qna: response.data, showQuestions: true, loadingQuestion: false})
+    this.setState({gapqna: response.data, showQuestions: true, loadingQuestion: false})
   }
+
+  // async handleShortQuestionGeneration() {
+  //   this.setState({loadingQuestion: true})
+  //   const response = await axios({
+  //     method: 'post',
+  //     url: 'http://localhost:5000',
+  //     data: {
+  //       article: this.state.article
+  //     }
+  //   });
+  //   this.setState({gapqna: response.data, showQuestions: true, loadingQuestion: false})
+  // }
 
   async handleSummaryGeneration() {
     this.setState({loadingSummary: true})
@@ -57,12 +70,15 @@ export default class App extends React.Component{
               />
             </Form.Field>
             <Form.Field inline>
-              <Button primary onClick={() => this.handleQuestionGeneration()}>
-                {loadingQuestion ? 'Loading..' : 'Generate Questions'}
-              </Button>
               <Button primary onClick={() => this.handleSummaryGeneration()}>
                 {loadingSummary ? 'Loading..' : 'Generate Summary'}
               </Button>
+              <Button primary onClick={() => this.handleGapQuestionGeneration()}>
+                {loadingQuestion ? 'Loading..' : 'Generate Gap Questions'}
+              </Button>
+              {/* <Button primary onClick={() => this.handleShortQuestionGeneration()}>
+                {loadingQuestion ? 'Loading..' : 'Generate Short Questions'}
+              </Button> */}
             </Form.Field>
           </Form>
           <br />
@@ -71,7 +87,7 @@ export default class App extends React.Component{
           {this.state.showQuestions && 
             <div>
               <h4>Questions</h4>
-              {this.state.qna.map((quesans) => 
+              {this.state.gapqna.map((quesans) => 
                 <QuestionAnswer question={quesans.question} answer={quesans.answer} />
               )}
             </div>}

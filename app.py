@@ -19,11 +19,10 @@ class QuizGenerator(Form):
     topic = TextField('Topic:')
     article = TextField('Article:', validators=[validators.required(), validators.Length(min=100, message=(u'Must be atleast 100 words length'))])
     
-    @app.route("/", methods=['POST'])
-    def hello():
+    @app.route("/generateGapQuestions", methods=['POST'])
+    def generateGapQuestions():
         data = json.loads(request.data)
         article = data['article']
-        # print(data)
 
         summarized_text, summary_sentences = summarize(article)
 
