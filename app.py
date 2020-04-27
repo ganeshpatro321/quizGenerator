@@ -2,6 +2,7 @@ from flask import Flask, render_template, flash, request, jsonify
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from summarize import summarize
 from gap_questions import create_gap_questions
+from short_questions import create_short_questions
 import json
 from flask_cors import CORS
 
@@ -37,6 +38,25 @@ class QuizGenerator(Form):
         response = jsonify(gap_questions)
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
+
+    @app.route("/generateShortQuestions", methods=['POST'])
+    def generateShortQuestions():
+        data = json.loads(request.data)
+        article = data['article']
+
+        summarized_text, summary_sentences = summarize(article)
+
+        short_questions = []
+
+        for sentence in summary_sentences:
+            short_question = create_short_questions(sentence)
+            if short_question:
+                short_questions.append(short_question)
+
+        response = jsonify(short_questions)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+
 
     @app.route("/summary", methods=['POST'])
     def generateSummary():
