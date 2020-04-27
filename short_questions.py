@@ -10,17 +10,17 @@ def create_short_questions(line):
     """
     
 
-    if type(line) is str:     # If the passed variable is of type string.
-        line = TextBlob(line) # Create object of type textblob.blob.TextBlob
+    if type(line) is str:     
+        line = TextBlob(line) 
 
-    bucket = {}               # Create an empty dictionary
+    bucket = {}               
 
 
-    for i,j in enumerate(line.tags):  # line.tags are the parts-of-speach in English
+    for i,j in enumerate(line.tags):  
         if j[1] not in bucket:
-            bucket[j[1]] = i  # Add all tags to the dictionary or bucket variable
+            bucket[j[1]] = i  
     
-    question = ''            # Create an empty string 
+    question = ''            
 
     # These are the english part-of-speach tags used in this demo program.
     #.....................................................................
@@ -55,9 +55,6 @@ def create_short_questions(line):
     l11 = ['PRP', 'VBZ']
     l12 = ['NNP', 'NN', 'IN']
     l13 = ['NN', 'VBZ']
-
-
-    # With the use of conditional statements the dictionary is compared with the list created above
 
     
     if all(key in  bucket for key in l1): #'NNP', 'VBG', 'VBZ', 'IN' in sentence.
@@ -98,8 +95,5 @@ def create_short_questions(line):
     if 'VBZ' in bucket and line.words[bucket['VBZ']] == "’":
         question = question.replace(" ’ ","'s ")
 
-    # Print the genetated questions as output.
-    if question != '':
-        print('\n', 'Question: ' + question )
     
     return question
