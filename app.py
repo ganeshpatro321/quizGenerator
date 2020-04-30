@@ -3,6 +3,7 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 from summarize import summarize
 from gap_questions import create_gap_questions
 from short_questions import create_short_questions
+from mcq_questions import create_mcq_questions
 import json
 from flask_cors import CORS
 
@@ -31,6 +32,7 @@ class QuizGenerator(Form):
 
         for sentence in summary_sentences:
             gap_question = create_gap_questions(sentence)
+            create_mcq_questions(sentence)
             if gap_question:
                 gap_questions.append(gap_question)
 
