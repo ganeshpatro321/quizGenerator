@@ -20,6 +20,7 @@ export default class App extends React.Component{
     loadingSummary: false
   }
 
+
   async handleGapQuestionGeneration() {
     this.setState({loadingGapQuestion: true})
     const response = await axios({
@@ -68,7 +69,7 @@ export default class App extends React.Component{
             <Form.Field>
               <TextArea 
                 onChange={(e) => this.setState({article: e.target.value})} 
-                placeholder='Tell us more' rows={8}
+                placeholder='Paste the article here!' rows={8}
                 style={{width: "75%"}}
               />
             </Form.Field>
