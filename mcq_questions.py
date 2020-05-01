@@ -14,7 +14,6 @@ def create_mcq_questions(sentence):
     antonyms = []
     if answer:
         answer_elements = answer.split()
-        print(answer_elements[0])
         for syn in wordnet.synsets(answer_elements[0]):
             for lm in syn.lemmas():
                 if lm.antonyms():
