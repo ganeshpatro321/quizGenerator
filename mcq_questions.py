@@ -18,4 +18,9 @@ def create_mcq_questions(sentence):
             for lm in syn.lemmas():
                 if lm.antonyms():
                     antonyms.append(lm.antonyms()[0].name())
-    print(antonyms)
+    if len(antonyms) != 0:
+        return [gap_question_answer, antonyms]
+    else:
+        return None
+    
+    
