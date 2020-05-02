@@ -48,7 +48,7 @@ export default class App extends React.Component{
     this.setState({shortques: response.data, showShortQuestions: true, loadingShortQuestion: false})
   }
 
-  async handleMcqQUestionGeneration() {
+  async handleMcqQuestionGeneration() {
     this.setState({loadingMcqQuestion: true});
     const response = await axios({
       method: 'post',
@@ -57,7 +57,9 @@ export default class App extends React.Component{
         article: this.state.article
       }
     });
-    this.setState({mcqqna: response.data, showMcqQuestions: true, loadingMcqQuestion: false});
+    this.setState({mcqqna: response.data, showMcqQuestions: true, loadingMcqQuestion: false}, () => {
+      console.log(response.data)
+    });
   }
 
   async handleSummaryGeneration() {
@@ -76,6 +78,7 @@ export default class App extends React.Component{
     let loadingSummary = this.state.loadingSummary;
     let loadingGapQuestion = this.state.loadingGapQuestion;
     let loadingShortQuestion = this.state.loadingShortQuestion;
+    let loadingMcqQuestion = this.state.loadingMcqQuestion;
     return (
       <div className="App">
         <header>
@@ -98,6 +101,9 @@ export default class App extends React.Component{
               <Button primary onClick={() => this.handleShortQuestionGeneration()}>
                 {loadingShortQuestion ? 'Loading..' : 'Generate Short Questions'}
               </Button>
+              <Button primary onClick={() => this.handleMcqQuestionGeneration()}>
+                {loadingMcqQuestion ? 'Loading..' : 'Generate MCQ Questions'}
+              </Button>
             </Form.Field>
           </Form>
           <br />
@@ -110,12 +116,19 @@ export default class App extends React.Component{
                 <ShowQuestionAnswer question={quesans.question} answer={quesans.answer} />
               )}
             </div>}
-            {this.state.showShortQuestions && 
-            <div>
-              <h4>Short Questions</h4>
-              {this.state.shortques.map((ques) => 
-                <ShowQuestion question={ques} />
-              )}
+          {this.state.showShortQuestions && 
+          <div>
+            <h4>Short Questions</h4>
+            {this.state.shortques.map((ques) => 
+              <ShowQuestion question={ques} />
+            )}
+          </div>}
+          {this.state.showMcqQuestions && 
+          <div>
+            <h4>MCQ type questions</h4>
+            {
+             (this.state.mcqqna.length !== 0 ? <div>MCQ Ques Generated</div> : <div>MCQ ques cannot be generated</div>) 
+            }
             </div>}
         </header>
       </div>
