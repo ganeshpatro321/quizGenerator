@@ -11,10 +11,13 @@ export default class App extends React.Component{
     article: '',
     gapqna: [],
     shortques: [],
+    mcqqna: [],
     summary: '',
     showSummary: false,
     showGapQuestions: false,
     showShortQuestions: false,
+    showMcqQuestions: false,
+    loadingMcqQuestion: false,
     loadingGapQuestion: false,
     loadingShortQuestion: false,
     loadingSummary: false
@@ -43,6 +46,18 @@ export default class App extends React.Component{
       }
     });
     this.setState({shortques: response.data, showShortQuestions: true, loadingShortQuestion: false})
+  }
+
+  async handleMcqQUestionGeneration() {
+    this.setState({loadingMcqQuestion: true});
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:5000/generateMcqQuestions',
+      data: {
+        article: this.state.article
+      }
+    });
+    this.setState({mcqqna: response.data, showMcqQuestions: true, loadingMcqQuestion: false});
   }
 
   async handleSummaryGeneration() {

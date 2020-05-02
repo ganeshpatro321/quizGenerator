@@ -36,16 +36,6 @@ class QuizGenerator(Form):
             if gap_question:
                 gap_questions.append(gap_question)
 
-        mcq_questions = []
-        no_questions = 0
-        for sentence in summary_sentences:
-            mcq_question = create_mcq_questions(sentence)
-            if mcq_question:
-                no_questions += 1
-                mcq_questions.append(mcq_question)
-        print(no_questions)
-        print(mcq_questions)
-
         # print(gap_questions)
         response = jsonify(gap_questions)
         response.headers.add('Access-Control-Allow-Origin', '*')
@@ -66,9 +56,9 @@ class QuizGenerator(Form):
                 no_questions += 1
                 mcq_questions.append(mcq_question)
         print(no_questions)
-        # response = jsonify(mcq_questions)
-        # response.headers.add('Access-Control-Allow-Origin', '*')
-        return []
+        response = jsonify(mcq_questions)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     @app.route("/generateShortQuestions", methods=['POST'])
     def generateShortQuestions():
