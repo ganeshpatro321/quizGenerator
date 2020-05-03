@@ -4,7 +4,7 @@ import { Form, Button, TextArea } from 'semantic-ui-react'
 import axios from 'axios'
 import './App.css';
 import { ShowQuestionAnswer, ShowQuestion } from './QuestionAnswer'
-import McqWrapper from './McqWrapper';
+import {McqWrapper} from './McqWrapper';
 import { Summary } from './Summary'
 
 export default class App extends React.Component{
