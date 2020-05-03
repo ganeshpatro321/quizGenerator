@@ -4,6 +4,7 @@ import { Form, Button, TextArea } from 'semantic-ui-react'
 import axios from 'axios'
 import './App.css';
 import { ShowQuestionAnswer, ShowQuestion } from './QuestionAnswer'
+import McqWrapper from './McqWrapper';
 import { Summary } from './Summary'
 
 export default class App extends React.Component{
@@ -79,6 +80,7 @@ export default class App extends React.Component{
     let loadingGapQuestion = this.state.loadingGapQuestion;
     let loadingShortQuestion = this.state.loadingShortQuestion;
     let loadingMcqQuestion = this.state.loadingMcqQuestion;
+    let mcqdata = this.state.mcqqna;
     return (
       <div className="App">
         <header>
@@ -127,7 +129,7 @@ export default class App extends React.Component{
           <div>
             <h4>MCQ type questions</h4>
             {
-             (this.state.mcqqna.length !== 0 ? <div>MCQ Ques Generated</div> : <div>MCQ ques cannot be generated</div>) 
+             (this.state.mcqqna.length !== 0 ? <McqWrapper mcqdata = {mcqdata}/> : <div>We are sorry! Our systems cannot couldnt generate MCQ type quetions. Try increasing the content of the article. Thanks :)</div>) 
             }
             </div>}
         </header>
