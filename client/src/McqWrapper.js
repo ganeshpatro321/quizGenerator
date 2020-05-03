@@ -1,42 +1,14 @@
 import React from 'react';
+import Mcqna from './Mcqna';
 
 export const McqWrapper = ({mcqdata}) => {
     return(
         <div>
-            {mcqdata.map((ques) => (
+            {mcqdata.map(ques => (
                 <div>
-                    {ques[0].question}
+                    <Mcqna qnawithoptions={ques}/>
                 </div>
             ))}
         </div>       
     )
 }
-
-// export default class McqWrapper extends React.Component{
-//     constructor(props){
-//     super(props);
-//     this.state = {
-//         data: []
-//         };
-//     }
-
-//     componentDidMount(){
-//         const mcqdata = this.props.mcqdata;
-//         this.setState({
-//             data : mcqdata
-//         });
-//     }
-    
-//     render() {
-//         const mcqdata = this.state.data;
-        // return(
-        //     <div>
-        //         {mcqdata.map((ques) => (
-        //             <div>
-        //                 {ques[0].question}
-        //             </div>
-        //         ))}
-        //     </div>
-        // )
-//         };
-//     }
