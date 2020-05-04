@@ -7,7 +7,8 @@ export default class Mcqna extends React.Component{
         this.state = {
             question: '',
             answer: '',
-            options: []
+            options: [],
+            validateAns: false
         }
     }
 
@@ -23,10 +24,18 @@ export default class Mcqna extends React.Component{
             })
     }
 
+    checkAnswer(e){
+            this.setState({
+                validateAns: true
+            });
+        }
+
 
     render(){
         let question = this.state.question;
         let options = this.state.options;
+        let validateAns = this.state.validateAns;
+        let answer = this.state.answer;
         return (
             <div
                 style={
@@ -46,10 +55,10 @@ export default class Mcqna extends React.Component{
             </Segment>
             {
                 options.map(option => (
-                    <Button>{option}</Button>
+                    <Button basic onClick= {(e) => this.checkAnswer(e)} color={(validateAns ? (answer === option) ? 'green' : 'red' : 'black')} value={option}>{option}</Button>
                 ))
-            }
-            </div>
+            }   
+            </div>  
         )
     }
 }
