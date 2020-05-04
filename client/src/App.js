@@ -4,6 +4,7 @@ import { Form, Button, TextArea } from 'semantic-ui-react'
 import axios from 'axios'
 import './App.css';
 import { ShowQuestionAnswer, ShowQuestion } from './QuestionAnswer'
+import {McqWrapper} from './McqWrapper';
 import { Summary } from './Summary'
 
 export default class App extends React.Component{
@@ -11,10 +12,13 @@ export default class App extends React.Component{
     article: '',
     gapqna: [],
     shortques: [],
+    mcqqna: [],
     summary: '',
     showSummary: false,
     showGapQuestions: false,
     showShortQuestions: false,
+    showMcqQuestions: false,
+    loadingMcqQuestion: false,
     loadingGapQuestion: false,
     loadingShortQuestion: false,
     loadingSummary: false
@@ -45,6 +49,20 @@ export default class App extends React.Component{
     this.setState({shortques: response.data, showShortQuestions: true, loadingShortQuestion: false})
   }
 
+  async handleMcqQuestionGeneration() {
+    this.setState({loadingMcqQuestion: true});
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:5000/generateMcqQuestions',
+      data: {
+        article: this.state.article
+      }
+    });
+    this.setState({mcqqna: response.data, showMcqQuestions: true, loadingMcqQuestion: false}, () => {
+      console.log(response.data)
+    });
+  }
+
   async handleSummaryGeneration() {
     this.setState({loadingSummary: true})
     const response = await axios({
@@ -61,6 +79,8 @@ export default class App extends React.Component{
     let loadingSummary = this.state.loadingSummary;
     let loadingGapQuestion = this.state.loadingGapQuestion;
     let loadingShortQuestion = this.state.loadingShortQuestion;
+    let loadingMcqQuestion = this.state.loadingMcqQuestion;
+    let mcqdata = this.state.mcqqna;
     return (
       <div className="App">
         <header>
@@ -83,6 +103,9 @@ export default class App extends React.Component{
               <Button primary onClick={() => this.handleShortQuestionGeneration()}>
                 {loadingShortQuestion ? 'Loading..' : 'Generate Short Questions'}
               </Button>
+              <Button primary onClick={() => this.handleMcqQuestionGeneration()}>
+                {loadingMcqQuestion ? 'Loading..' : 'Generate MCQ Questions'}
+              </Button>
             </Form.Field>
           </Form>
           <br />
@@ -95,12 +118,19 @@ export default class App extends React.Component{
                 <ShowQuestionAnswer question={quesans.question} answer={quesans.answer} />
               )}
             </div>}
-            {this.state.showShortQuestions && 
-            <div>
-              <h4>Short Questions</h4>
-              {this.state.shortques.map((ques) => 
-                <ShowQuestion question={ques} />
-              )}
+          {this.state.showShortQuestions && 
+          <div>
+            <h4>Short Questions</h4>
+            {this.state.shortques.map((ques) => 
+              <ShowQuestion question={ques} />
+            )}
+          </div>}
+          {this.state.showMcqQuestions && 
+          <div>
+            <h4>MCQ type questions</h4>
+            {
+             (this.state.mcqqna.length !== 0 ? <McqWrapper mcqdata = {mcqdata}/> : <div>We are sorry! Our systems cannot couldnt generate MCQ type quetions. Try increasing the content of the article. Thanks :)</div>) 
+            }
             </div>}
         </header>
       </div>
